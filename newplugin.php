@@ -18,7 +18,10 @@ if ( ! defined("ABSPATH") ) exit;
 
 class NewPlugin
 {
+  public $plugin;
+
   function __construct(){
+    $this->plugin = plugin_basename( __FILE__ );
     add_action('init', array( $this,'custom_post_type') );
   }
 
@@ -28,6 +31,14 @@ class NewPlugin
     add_action('admin_enqueue_scripts', array( $this,'enqueue') );
 
     add_action('admin_menu', array( $this,'add_admin_pages') );
+
+    add_filter( "plugin_action_links_$this->plugin", array( $this,'settings_link') );
+  }
+
+  public function settings_link($links) {
+   $settings_link = '<a href="admin.php?page=newplugin">My Settings</a>';
+   array_push( $links, $settings_link );
+   return $links;
   }
 
   function add_admin_pages() {
