@@ -1,10 +1,15 @@
 <?php 
-/*
- Plugin Name:My New Plugin
- Description:This is my new plugin description
- Author:Sai Charan
- Author URI:https://github.com/saicherry
+/** 
+ * @package NewPlugin
+ *  
+ * Plugin Name:My New Plugin
+ * Description:This is my new plugin description
+ * Author:Sai Charan
+ * Author URI:https://github.com/saicherry 
+ * 
 */
+ 
+
 
 
 if ( ! defined("ABSPATH") ) exit;
@@ -21,18 +26,26 @@ class NewPlugin
     // by placing 'admin_enqueue_scripts' the files will load at backend, 
     // by placing 'wp_enqueue_scripts' the files will load at frontend
     add_action('admin_enqueue_scripts', array( $this,'enqueue') );
+
+    add_action('admin_menu', array( $this,'add_admin_pages') );
   }
 
-   function activate(){
-    // generated a CPT
-    $this->custom_post_type();
-    // flush rewrite rules
-    flush_rewrite_rules();
-   }
+  function add_admin_pages() {
+    add_menu_page( 'New Admin Page', 'Admin Page', 'manage_options', 'newplugin', array( $this, 'admin_index' ), 'dashicons-podio', 110 );
+  }
+
+  public function admin_index() {
+     require_once plugin_dir_path( __FILE__ ) .'templates/admin.php';
+  }
+
+  function activate() {
+    require_once plugin_dir_path( __FILE__ ) . 'inc/alecaddd-plugin-activate.php';
+    NewPluginActivate::activate();
+  }
 
    function deactivate(){
-    // flush rewrite rules
-    flush_rewrite_rules();
+    require_once plugin_dir_path( __FILE__ ) . 'inc/alecaddd-plugin-activate.php';
+    NewPluginDeactivate::deactivate();
 
    }
 
@@ -54,7 +67,12 @@ if ( class_exists( 'NewPlugin')){
 }
 
 //activation 
-register_activation_hook( __FILE__, array( $newPlugin,'activate') );
+
+register_activation_hook( __FILE__, array( $newPlugin, 'activate' ) );
+
+
+// require_once( plugin_dir_path( __FILE__ ) .'/inc/newplugin-activate');
+// register_activation_hook( __FILE__, array( 'NewPlugin_Activate','activate') );
 
 //deactivation 
 register_deactivation_hook( __FILE__, array( $newPlugin,'deactivate') );
