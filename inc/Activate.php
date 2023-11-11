@@ -3,8 +3,10 @@
  * @package NewPlugin
  * 
 */
+
+namespace Inc;
  
-class NewPlugin_Activate
+class Activate
 {
     public static function activate(){
         flush_rewrite_rules( );

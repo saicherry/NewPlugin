@@ -1,0 +1,19 @@
+{
+    "name": "saicharan/newplugin",
+    "description": "Awesome starter wordpress plugin",
+    "type": "project",
+    "license": "GPL",
+    "autoload": {
+        "psr-4": {
+            "Inc\\":"./inc"
+        }
+    },
+    "authors": [
+        {
+            "name": "mkrishna",
+            "email": "mkrishna@cure.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
